@@ -1,0 +1,16 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="kpk_avalonia.HomePage"
+        Title="HomePage">
+  <Grid Background="LightBlue" RowDefinitions="Auto, *">
+	  <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+		  <Button Content="Студенты" x:Name="BtnStudents" Click="BtnStudents_Click"  />
+          <Button Content="Группы" x:Name="BtnGroups" Click="BtnGroups_Click"/>
+          <Button Content="Специальности" x:Name="BtnSpeciality" Click="BtnSpeciality_Click"/>
+      </StackPanel>
+      <ContentControl Name="MainControl" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+  </Grid>
+</Window>

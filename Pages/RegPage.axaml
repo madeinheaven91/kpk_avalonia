@@ -1,0 +1,45 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="kpk_avalonia.RegPage"
+        Title="RegPage">
+    <Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+			<RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+		    <TextBlock Text="Регистрация" 
+				HorizontalAlignment="Center"
+				FontSize="36"/>
+            <TextBlock Text="Логин"
+				Margin="0 20 0 10"/>
+            <TextBox x:Name="TxtLogin"
+				Watermark="Логин"/>
+            <TextBlock Text="Пароль"
+				Margin="0 20 0 10"/>
+            <TextBox x:Name="TxtPassword"
+				PasswordChar="*"
+				Watermark="Пароль"/>
+
+            <Button Content="Зарегистрироваться" HorizontalAlignment="Center" Click="Button_Click" Margin="0 20 0 0"/>
+            <TextBlock x:Name="TxtError"
+				HorizontalAlignment="Center"
+				Margin="0 20 0 0"
+				Foreground="Red"
+				/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center">
+			<TextBlock Text="Есть аккаунт? Войди" PointerPressed="TextBlock_PointerPressed"/>
+        </StackPanel>
+    </Grid>
+    
+</Window>

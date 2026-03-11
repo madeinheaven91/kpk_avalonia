@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres
+    container_name: college_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secret}
+      POSTGRES_DB: ${POSTGRES_DB:-college_db}
+    ports:
+      - "5000:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - migrations:/Migrations
+
+volumes:
+  postgres_data:
+  migrations:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: Migrations

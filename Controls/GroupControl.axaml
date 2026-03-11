@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="kpk_avalonia.GroupControl">
+  <Grid>
+	  <Grid.RowDefinitions>
+		  <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*" MinHeight="310"/>
+      </Grid.RowDefinitions>
+      <StackPanel Spacing="10">
+		  <TextBlock Text="Группы"/>
+          <StackPanel Orientation="Horizontal">
+              <Button Content="Добавить" x:Name="BtnAdd" Click="BtnAdd_Click" Margin="15 0 0 0 "/>
+              <Button Content="Редактировать" x:Name="BtnEdit" Click="BtnEdit_Click" Margin="15 0 0 0 "/>
+			  <Button Content="Удалить" x:Name="BtnDelete" Click="BtnDelete_Click" Margin="15 0 0 0 "/>
+              <TextBlock Text="Поиск:" Margin="15 0 0 0 "  VerticalAlignment="Center"/>
+              <TextBox Margin="15 0 0 0 " x:Name="TxtSearch" Width="100"/>
+          </StackPanel>
+      </StackPanel>
+      <DataGrid Grid.Row="1" Background="Wheat" Name="DgGroups" IsReadOnly="True" DoubleTapped="DgGroups_DoubleTapped">
+		  <DataGrid.Columns>
+			  <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+              <DataGridTextColumn Header="Название" Binding="{Binding Number}"/>
+              <DataGridTextColumn Header="Специальность" Binding="{Binding Specialty.Name}"/>
+          </DataGrid.Columns>
+      </DataGrid>
+  </Grid>
+</UserControl>
