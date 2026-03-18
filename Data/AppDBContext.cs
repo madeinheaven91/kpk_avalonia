@@ -36,6 +36,7 @@ public partial class AppDBContext : DbContext
             entity.ToTable("groups");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Number)
                 .HasMaxLength(50)
                 .HasColumnName("number");
@@ -68,6 +69,7 @@ public partial class AppDBContext : DbContext
             entity.ToTable("specialties");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");

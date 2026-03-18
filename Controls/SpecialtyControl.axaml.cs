@@ -26,21 +26,46 @@ public partial class SpecialtyControl : UserControl
 
     private void DgSpecialties_DoubleTapped(object? sender, Avalonia.Input.TappedEventArgs e)
     {
-
+		BtnEdit_Click(sender, e);
     }
 
-    private void BtnAdd_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    // ADD
+    private async void BtnAdd_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
+        var dialog = new SpecialtyDialog();
+        var result = await dialog.ShowDialog<bool>(HomePage.Instance);
 
+        if (result)
+        {
+            ConnectionClass.connect.Specialties.Add(dialog.Specialty);
+            ConnectionClass.connect.SaveChanges();
+            Refresh();
+        }
     }
 
-    private void BtnEdit_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    // EDIT
+    private async void BtnEdit_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
+        if (DgSpecialties.SelectedItem is not Data.Specialty selected) return;
 
+        var dialog = new SpecialtyDialog();
+        var result = await dialog.ShowDialog<bool>(HomePage.Instance);
+
+        if (result)
+        {
+            ConnectionClass.connect.Specialties.Update(dialog.Specialty);
+            ConnectionClass.connect.SaveChanges();
+            Refresh();
+        }
     }
 
-    private void BtnDelete_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    // DELETE
+    private async void BtnDelete_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
+        if (DgSpecialties.SelectedItem is not Data.Specialty selected) return;
 
+        ConnectionClass.connect.Specialties.Remove(selected);
+        ConnectionClass.connect.SaveChanges();
+        Refresh();
     }
 }

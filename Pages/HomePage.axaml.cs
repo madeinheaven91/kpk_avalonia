@@ -6,8 +6,11 @@ namespace kpk_avalonia;
 
 public partial class HomePage : Window
 {
+	public static HomePage Instance { get; private set; }
+
     public HomePage()
     {
+		Instance = this;
         InitializeComponent();
         MainControl.Content = new StudentControl();
     }

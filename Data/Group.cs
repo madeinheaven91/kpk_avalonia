@@ -11,6 +11,8 @@ public partial class Group
 
     public int? SpecialtyId { get; set; }
 
+    public string? Description { get; set; }
+
     public virtual Specialty? Specialty { get; set; }
 
     public virtual ICollection<User> Users { get; set; } = new List<User>();

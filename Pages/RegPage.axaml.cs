@@ -1,40 +1,73 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using kpk_avalonia.Classes;
+using kpk_avalonia.Data;
 using System.Linq;
 
 namespace kpk_avalonia;
 
 public partial class RegPage : Window
 {
+    //указываем непосредственно таблицу из бд
+    Data.User user;
+    Data.Login login;
+
+    //указываем на элементы в приложении
     public RegPage()
     {
         InitializeComponent();
+        user = new User();
+        login = new Login();
+        this.DataContext = user;
+        CmbxGroup.ItemsSource = ConnectionClass.connect.Groups.ToList();
     }
 
-    private void Button_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void BtnAdd_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        var login = TxtLogin.Text;
-        var password = TxtPassword.Text;
+        //1. Сохранение в таблицу логин и пароль
+        login.Login1 = TxtLogin.Text;
+        login.Password = TxtPassword.Text;
+        ConnectionClass.connect.Logins.Add(login);
+        ConnectionClass.connect.SaveChanges();
 
-        var user = ConnectionClass.connect.Logins.Where(d => d.Login1 == login && d.Password == password).FirstOrDefault();
-        if (user != null)
+        //2. Сохранение пользователя
+        user.LastName = TxtSurname.Text;
+        user.FirstName = TxtName.Text;
+        user.Patronymic = TxtPatronumic.Text;
+        user.Dob = DateOnly.FromDateTime(DpBirthday.SelectedDate.Value.DateTime);
+        user.GroupId = ((Group)CmbxGroup.SelectedItem).Id;
+
+        //внешний ключ берется из новой записи логинов
+        user.LoginId = login.Id;
+        ConnectionClass.connect.Users.Add(user);
+        ConnectionClass.connect.SaveChanges();
+        var window = new AuthPage();
+        window.Show();
+        Close();
+    }
+
+    private void BtnAddImage_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        
+    }
+
+
+
+    private void CmbxGroup_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        var g = CmbxGroup.SelectedItem as Group;
+        if (g != null)
         {
-            var home = new HomePage();
-            home.Show();
-            Close();
-        }
-        else
-        {
-			TxtError.Text = "Неправильный логин или пароль";
+            TxtSpec.Text = ConnectionClass.connect.Specialties.Where(z => z.Id == g.SpecialtyId).FirstOrDefault().Name;
         }
     }
 
-    private void TextBlock_PointerPressed(object? sender, Avalonia.Input.PointerPressedEventArgs e)
+    private void BtnBack_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-		var auth = new AuthPage();
-		auth.Show();
-		Close();
+        var window = new AuthPage();
+        window.Show();
+        Close();
     }
 }

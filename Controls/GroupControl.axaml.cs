@@ -26,21 +26,46 @@ public partial class GroupControl : UserControl
 
     private void DgGroups_DoubleTapped(object? sender, Avalonia.Input.TappedEventArgs e)
     {
-
+		BtnEdit_Click(sender, e);
     }
 
-    private void BtnAdd_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    // ADD
+    private async void BtnAdd_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
+        var dialog = new GroupDialog();
+        var result = await dialog.ShowDialog<bool>(HomePage.Instance);
 
+        if (result)
+        {
+            ConnectionClass.connect.Groups.Add(dialog.Group);
+            ConnectionClass.connect.SaveChanges();
+            Refresh();
+        }
     }
 
-    private void BtnEdit_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    // EDIT
+    private async void BtnEdit_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
+        if (DgGroups.SelectedItem is not Data.Group selected) return;
 
+        var dialog = new GroupDialog();
+        var result = await dialog.ShowDialog<bool>(HomePage.Instance);
+
+        if (result)
+        {
+            ConnectionClass.connect.Groups.Update(dialog.Group);
+            ConnectionClass.connect.SaveChanges();
+            Refresh();
+        }
     }
 
-    private void BtnDelete_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    // DELETE
+    private async void BtnDelete_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
+        if (DgGroups.SelectedItem is not Data.Group selected) return;
 
+        ConnectionClass.connect.Groups.Remove(selected);
+        ConnectionClass.connect.SaveChanges();
+        Refresh();
     }
 }

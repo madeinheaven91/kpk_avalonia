@@ -5,41 +5,74 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="kpk_avalonia.RegPage"
         Title="RegPage">
-    <Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="400"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-			<RowDefinition Height="80"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="80"/>
+ <Grid>
+		<Grid.RowDefinitions>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="193*"/>
+            <RowDefinition Height="32*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Column="1" Grid.Row="1">
-		    <TextBlock Text="Регистрация" 
-				HorizontalAlignment="Center"
-				FontSize="36"/>
-            <TextBlock Text="Логин"
-				Margin="0 20 0 10"/>
-            <TextBox x:Name="TxtLogin"
-				Watermark="Логин"/>
-            <TextBlock Text="Пароль"
-				Margin="0 20 0 10"/>
-            <TextBox x:Name="TxtPassword"
-				PasswordChar="*"
-				Watermark="Пароль"/>
-
-            <Button Content="Зарегистрироваться" HorizontalAlignment="Center" Click="Button_Click" Margin="0 20 0 0"/>
-            <TextBlock x:Name="TxtError"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel  Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Width="294">
+            <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="5,5,5,5" HorizontalAlignment="Center" Margin="5" MinWidth="150">
+                <Image  x:Name="IPicture" MaxHeight="200" MinHeight="150" Margin="5">
+                </Image>
+            </Border>
+            <WrapPanel HorizontalAlignment="Center"  Margin="0 0 0 5">
+                <Button x:Name="BtnAddImage" Click="BtnAddImage_Click" Content="Выбрать фото" Background="Green"/>
+            </WrapPanel>
+            <WrapPanel Margin="0 0 0 5">
+                <TextBlock Text="Фамилия:" Margin="0 0 5 0"/>
+                <TextBox x:Name="TxtSurname"  Width="200"  />
+            </WrapPanel>
+            <WrapPanel Margin="0 0 0 5">
+                <TextBlock Text="Имя:" Margin="0 0 31  0"/>
+                <TextBox x:Name="TxtName"  Width="200"  />
+            </WrapPanel>
+            <WrapPanel Margin="0 0 0 5">
+                <TextBlock Text="Отчество:" Margin="0 0 5 0"/>
+                <TextBox x:Name="TxtPatronumic"    Width="200"/>
+            </WrapPanel>
+            <WrapPanel Margin="0 0 0 5">
+                <TextBlock Text="Группа:" Margin="0 0 17 0"/>
+                <ComboBox Width="100" x:Name="CmbxGroup" SelectionChanged="CmbxGroup_SelectionChanged" Margin="0 0 15 0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Number}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </WrapPanel>
+            <WrapPanel Margin="0 0 0 5">
+                <TextBlock Text="Спец.:" Margin="0 0 25 0"/>
+                <TextBox x:Name="TxtSpec"  IsReadOnly="True"  Width="200"/>
+            </WrapPanel>
+            <WrapPanel Margin="0 0 0 5">
+                <TextBlock Text="Д/Р:" Margin="0 0 35 0"/>
+                <DatePicker x:Name="DpBirthday"/>
+            </WrapPanel>
+            <WrapPanel Margin="0 0 0 5">
+                <TextBlock Text="Логин:" Margin="0 0 20 0"/>
+                <TextBox x:Name="TxtLogin"    Width="200"/>
+            </WrapPanel>
+            <WrapPanel Margin="0 0 0 5">
+                <TextBlock Text="Пароль:" Margin="0 0 13 0"/>
+                <TextBox x:Name="TxtPassword"    Width="200"/>
+            </WrapPanel>
+			<TextBlock x:Name="TxtError"
+				TextWrapping="Wrap"
+				TextAlignment="Center"
 				HorizontalAlignment="Center"
 				Margin="0 20 0 0"
 				Foreground="Red"
 				/>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center">
-			<TextBlock Text="Есть аккаунт? Войди" PointerPressed="TextBlock_PointerPressed"/>
+        <StackPanel Grid.Column="1" Grid.Row="2" VerticalAlignment="Center">
+            <Button Content="Добавть запись" x:Name="BtnAdd" Click="BtnAdd_Click" Background="Green" Margin="0 0 0 5"/>
+            <Button x:Name="BtnBack" Content="Назад" Click="BtnBack_Click"/>
         </StackPanel>
     </Grid>
-    
 </Window>

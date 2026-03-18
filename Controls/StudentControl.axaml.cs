@@ -26,21 +26,46 @@ public partial class StudentControl : UserControl
 
     private void DgStudents_DoubleTapped(object? sender, Avalonia.Input.TappedEventArgs e)
     {
-
+		BtnEdit_Click(sender, e);
     }
 
-    private void BtnAdd_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    // ADD
+    private async void BtnAdd_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
+        var dialog = new StudentDialog();
+        var result = await dialog.ShowDialog<bool>(HomePage.Instance);
 
+        if (result)
+        {
+            ConnectionClass.connect.Users.Add(dialog.User);
+            ConnectionClass.connect.SaveChanges();
+            Refresh();
+        }
     }
 
-    private void BtnEdit_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    // EDIT
+    private async void BtnEdit_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
+        if (DgStudents.SelectedItem is not Data.User selected) return;
 
+        var dialog = new StudentDialog(selected);
+        var result = await dialog.ShowDialog<bool>(HomePage.Instance);
+
+        if (result)
+        {
+            ConnectionClass.connect.Users.Update(dialog.User);
+            ConnectionClass.connect.SaveChanges();
+            Refresh();
+        }
     }
 
-    private void BtnDelete_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    // DELETE
+    private async void BtnDelete_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
+        if (DgStudents.SelectedItem is not Data.User selected) return;
 
+        ConnectionClass.connect.Users.Remove(selected);
+        ConnectionClass.connect.SaveChanges();
+        Refresh();
     }
 }

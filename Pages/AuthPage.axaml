@@ -32,6 +32,8 @@
 
             <Button Content="Авторизоваться" HorizontalAlignment="Center" Click="Button_Click" Margin="0 20 0 0"/>
             <TextBlock x:Name="TxtError"
+				TextWrapping="Wrap"
+				TextAlignment="Center"
 				HorizontalAlignment="Center"
 				Margin="0 20 0 0"
 				Foreground="Red"
