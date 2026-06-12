@@ -6,6 +6,10 @@
         x:Class="kpk_avalonia.StudentDialog"
         Title="Dialog">
   <StackPanel Margin="20" Spacing="10">
+    <Border BorderBrush="Gray" BorderThickness="2" CornerRadius="5" HorizontalAlignment="Center">
+        <Image x:Name="IPhoto" Width="150" Height="150" Stretch="Uniform"/>
+    </Border>
+    <Button Content="Выбрать фото" HorizontalAlignment="Center" Click="BtnAddImage_Click"/>
     <TextBlock Text="Имя"/>
     <TextBox x:Name="TxtFirstName"/>
     <TextBlock Text="Фамилия"/>

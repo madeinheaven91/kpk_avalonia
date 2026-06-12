@@ -1,7 +1,8 @@
 using System;
-using Avalonia;
+using System.IO;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform.Storage;
 using kpk_avalonia.Classes;
 using kpk_avalonia.Data;
 using System.Linq;
@@ -32,6 +33,32 @@ public partial class StudentDialog : Window
             : null;
 
         CmbxGroup.ItemsSource = ConnectionClass.connect.Groups.ToList();
+        if (student.Photo != null)
+            IPhoto.Source = new Bitmap(new MemoryStream(student.Photo));
+    }
+
+    private async void BtnAddImage_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Выбрать фото",
+            AllowMultiple = false,
+            FileTypeFilter = new[]
+            {
+                new FilePickerFileType("Изображения") { Patterns = new[] { "*.jpg", "*.jpeg", "*.png", "*.gif" } }
+            }
+        });
+
+        if (files.Count == 0) return;
+
+        await using var stream = await files[0].OpenReadAsync();
+        using var memStream = new MemoryStream();
+        await stream.CopyToAsync(memStream);
+
+        User.Photo = memStream.ToArray();
+
+        memStream.Position = 0;
+        IPhoto.Source = new Bitmap(memStream);
     }
 
     private void BtnSave_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
