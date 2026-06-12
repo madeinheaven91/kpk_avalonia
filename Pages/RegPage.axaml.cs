@@ -57,7 +57,6 @@ public partial class RegPage : Window
     {
         var g = CmbxGroup.SelectedItem as Group;
         if (g != null) TxtSpec.Text = ConnectionClass.connect.Specialties.Where(z => z.Id == g.SpecialtyId).FirstOrDefault().Name;
-       
     }
 
     private void BtnBack_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
