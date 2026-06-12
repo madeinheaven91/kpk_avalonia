@@ -1,26 +1,29 @@
 create table specialties (
-	id serial primary key,
-    name varchar(50)
+    id serial primary key,
+    name varchar(255) not null,
+    description varchar(255)
 );
 
 create table groups (
-	id serial primary key,
-	number varchar(50),
-	specialty_id int references specialties(id)
+    id serial primary key,
+    number varchar(255) not null,
+    specialty_id int not null references specialties(id),
+    description varchar(255)
 );
 
 create table logins (
-	id serial primary key,
-    login varchar(50),
-    password varchar(50)
+    id serial primary key,
+    login varchar(255) not null,
+    password varchar(255) not null
 );
 
 create table users (
-	id serial primary key,
-    first_name varchar(50),
-    last_name varchar(50),
-    patronymic varchar(50),
-	dob date,
+    id serial primary key,
+    first_name varchar(255) not null,
+    last_name varchar(255) not null,
+    patronymic varchar(255),
+	photo bytea,
+    dob date,
 	login_id int references logins(id),
-    group_id int references groups(id)
+    group_id int not null references groups(id)
 );

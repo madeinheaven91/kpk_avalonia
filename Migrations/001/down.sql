@@ -1,4 +1,4 @@
-drop table user;
-drop table login;
-drop table group;
-drop table specialty;
+drop table users;
+drop table logins;
+drop table groups;
+drop table specialties;
