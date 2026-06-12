@@ -12,4 +12,6 @@ public partial class Specialty
     public string? Description { get; set; }
 
     public virtual ICollection<Group> Groups { get; set; } = new List<Group>();
+
+    public override string ToString() => Name ?? "";
 }

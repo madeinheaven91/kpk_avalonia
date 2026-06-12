@@ -1,9 +1,6 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using Microsoft.EntityFrameworkCore;
 using kpk_avalonia.Classes;
-using System;
 using System.Linq;
 
 namespace kpk_avalonia;
@@ -12,19 +9,42 @@ public partial class StudentControl : UserControl
 {
     public StudentControl()
     {
-        //ОТВЕЧАЕТ ЗА ВЫВОД СПИСКА
         InitializeComponent();
-        DgStudents.ItemsSource = ConnectionClass.connect.Users.Include(g => g.Group).ToList();
+        var groups = ConnectionClass.connect.Groups.ToList();
+		// злой лайфхак
+        var allGroups = new Data.Group { Id = -1, Number = "Все" };
+        CmbGroup.ItemsSource = new[] { allGroups }.Concat(groups).ToList();
+        CmbGroup.SelectedIndex = 0;
         Refresh();
     }
 
     private void Refresh()
     {
-        DgStudents.ItemsSource = null;
-        DgStudents.ItemsSource = ConnectionClass.connect.Users.Include(g => g.Group).ToList();
+        var all = ConnectionClass.connect.Users.Include(g => g.Group).ToList();
+        var search = TxtSearch.Text?.Trim();
+        var selectedGroup = CmbGroup.SelectedItem as Data.Group;
+        var groupFilter = selectedGroup?.Id != -1;
+
+        var result = all
+            .Where(u => string.IsNullOrEmpty(search) ||
+                        $"{u.FirstName} {u.LastName} {u.Patronymic}".ToLower().Contains(search.ToLower()))
+            .Where(u => !groupFilter || u.GroupId == selectedGroup!.Id)
+            .ToList();
+
+        DgStudents.ItemsSource = result;
     }
 
-    private void DgStudents_DoubleTapped(object? sender, Avalonia.Input.TappedEventArgs e)
+    private void TxtSearch_TextChanged(object sender, Avalonia.Controls.TextChangedEventArgs e)
+    {
+        Refresh();
+    }
+
+    private void CmbGroup_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        Refresh();
+    }
+
+    private void DgStudents_DoubleTapped(object sender, Avalonia.Input.TappedEventArgs e)
     {
 		BtnEdit_Click(sender, e);
     }

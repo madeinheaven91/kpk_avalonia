@@ -1,7 +1,5 @@
 using System;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using kpk_avalonia.Classes;
 using kpk_avalonia.Data;
 using System.Linq;
@@ -58,10 +56,8 @@ public partial class RegPage : Window
     private void CmbxGroup_SelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         var g = CmbxGroup.SelectedItem as Group;
-        if (g != null)
-        {
-            TxtSpec.Text = ConnectionClass.connect.Specialties.Where(z => z.Id == g.SpecialtyId).FirstOrDefault().Name;
-        }
+        if (g != null) TxtSpec.Text = ConnectionClass.connect.Specialties.Where(z => z.Id == g.SpecialtyId).FirstOrDefault().Name;
+       
     }
 
     private void BtnBack_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)

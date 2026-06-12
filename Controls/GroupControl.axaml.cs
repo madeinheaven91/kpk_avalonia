@@ -12,19 +12,42 @@ public partial class GroupControl : UserControl
 {
     public GroupControl()
     {
-        //ОТВЕЧАЕТ ЗА ВЫВОД СПИСКА
         InitializeComponent();
-        DgGroups.ItemsSource = ConnectionClass.connect.Groups.Include(g => g.Specialty).ToList();
+        var specialties = ConnectionClass.connect.Specialties.ToList();
+        var allSpecialties = new Data.Specialty { Id = -1, Name = "Все" };
+        CmbSpecialty.ItemsSource = new[] { allSpecialties }.Concat(specialties).ToList();
+        CmbSpecialty.SelectedIndex = 0;
         Refresh();
     }
 
     private void Refresh()
     {
-        DgGroups.ItemsSource = null;
-        DgGroups.ItemsSource = ConnectionClass.connect.Groups.Include(g => g.Specialty).ToList();
+        var all = ConnectionClass.connect.Groups.Include(g => g.Specialty).ToList();
+        var search = TxtSearch.Text?.Trim();
+        var selectedSpecialty = CmbSpecialty.SelectedItem as Data.Specialty;
+        var specialtyFilter = selectedSpecialty?.Id != -1;
+
+        var result = all
+            .Where(g => string.IsNullOrEmpty(search) ||
+                        (g.Number != null && g.Number.ToLower().Contains(search.ToLower())) ||
+                        (g.Description != null && g.Description.ToLower().Contains(search.ToLower())))
+            .Where(g => !specialtyFilter || g.SpecialtyId == selectedSpecialty!.Id)
+            .ToList();
+
+        DgGroups.ItemsSource = result;
     }
 
-    private void DgGroups_DoubleTapped(object? sender, Avalonia.Input.TappedEventArgs e)
+    private void TxtSearch_TextChanged(object sender, Avalonia.Controls.TextChangedEventArgs e)
+    {
+        Refresh();
+    }
+
+    private void CmbSpecialty_SelectionChanged(object? sender, SelectionChangedEventArgs e)
+    {
+        Refresh();
+    }
+
+    private void DgGroups_DoubleTapped(object sender, Avalonia.Input.TappedEventArgs e)
     {
 		BtnEdit_Click(sender, e);
     }

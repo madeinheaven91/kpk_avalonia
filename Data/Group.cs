@@ -16,4 +16,6 @@ public partial class Group
     public virtual Specialty? Specialty { get; set; }
 
     public virtual ICollection<User> Users { get; set; } = new List<User>();
+
+    public override string ToString() => Number ?? "";
 }

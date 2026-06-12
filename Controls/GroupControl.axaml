@@ -16,7 +16,9 @@
               <Button Content="Редактировать" x:Name="BtnEdit" Click="BtnEdit_Click" Margin="15 0 0 0 "/>
 			  <Button Content="Удалить" x:Name="BtnDelete" Click="BtnDelete_Click" Margin="15 0 0 0 "/>
               <TextBlock Text="Поиск:" Margin="15 0 0 0 "  VerticalAlignment="Center"/>
-              <TextBox Margin="15 0 0 0 " x:Name="TxtSearch" Width="100"/>
+              <TextBox Margin="15 0 0 0 " x:Name="TxtSearch" Width="100" TextChanged="TxtSearch_TextChanged"/>
+              <TextBlock Text="Фильтр по специальности:" Margin="15 0 0 0 " VerticalAlignment="Center"/>
+              <ComboBox Margin="15 0 0 0 " x:Name="CmbSpecialty" Width="250" SelectionChanged="CmbSpecialty_SelectionChanged"/>
           </StackPanel>
       </StackPanel>
       <DataGrid Grid.Row="1" Background="Wheat" Name="DgGroups" IsReadOnly="True" DoubleTapped="DgGroups_DoubleTapped">

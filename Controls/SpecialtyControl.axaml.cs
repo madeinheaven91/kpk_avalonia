@@ -20,11 +20,21 @@ public partial class SpecialtyControl : UserControl
 
     private void Refresh()
     {
-        DgSpecialties.ItemsSource = null;
-        DgSpecialties.ItemsSource = ConnectionClass.connect.Specialties.ToList();
+        var all = ConnectionClass.connect.Specialties.ToList();
+        var search = TxtSearch.Text?.Trim();
+        var result = string.IsNullOrEmpty(search)
+            ? all
+            : all.Where(s => (s.Name != null && s.Name.ToLower().Contains(search.ToLower())) ||
+                             (s.Description != null && s.Description.ToLower().Contains(search.ToLower()))).ToList();
+        DgSpecialties.ItemsSource = result;
     }
 
-    private void DgSpecialties_DoubleTapped(object? sender, Avalonia.Input.TappedEventArgs e)
+    private void TxtSearch_TextChanged(object sender, Avalonia.Controls.TextChangedEventArgs e)
+    {
+        Refresh();
+    }
+
+    private void DgSpecialties_DoubleTapped(object sender, Avalonia.Input.TappedEventArgs e)
     {
 		BtnEdit_Click(sender, e);
     }
