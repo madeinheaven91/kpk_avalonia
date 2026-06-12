@@ -49,7 +49,6 @@ public partial class StudentControl : UserControl
 		BtnEdit_Click(sender, e);
     }
 
-    // ADD
     private async void BtnAdd_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         var dialog = new StudentDialog();
@@ -63,7 +62,6 @@ public partial class StudentControl : UserControl
         }
     }
 
-    // EDIT
     private async void BtnEdit_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (DgStudents.SelectedItem is not Data.User selected) return;
@@ -79,7 +77,6 @@ public partial class StudentControl : UserControl
         }
     }
 
-    // DELETE
     private async void BtnDelete_Click(object sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
         if (DgStudents.SelectedItem is not Data.User selected) return;

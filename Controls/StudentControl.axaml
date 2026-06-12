@@ -2,8 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:classes="clr-namespace:kpk_avalonia.Classes"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="kpk_avalonia.StudentControl">
+  <UserControl.Resources>
+      <classes:BytesToBitmapConverter x:Key="BytesToBitmap"/>
+  </UserControl.Resources>
   <Grid>
 	  <Grid.RowDefinitions>
 		  <RowDefinition Height="Auto"/>
@@ -21,15 +25,30 @@
               <ComboBox Margin="15 0 0 0 " x:Name="CmbGroup" Width="250" SelectionChanged="CmbGroup_SelectionChanged"/>
           </StackPanel>
       </StackPanel>
-      <DataGrid Grid.Row="1" Background="Wheat" Name="DgStudents" IsReadOnly="True" DoubleTapped="DgStudents_DoubleTapped">
-		  <DataGrid.Columns>
-			  <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
-              <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}"/>
-              <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>
-              <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}"/>
-              <DataGridTextColumn Header="Дата рождения" Binding="{Binding Dob}"/>
-              <DataGridTextColumn Header="Группа" Binding="{Binding Group.Number}"/>
-          </DataGrid.Columns>
-      </DataGrid>
+      <Grid Grid.Row="1">
+          <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="Auto"/>
+          </Grid.ColumnDefinitions>
+          <DataGrid Background="Wheat" Name="DgStudents" IsReadOnly="True"
+                    DoubleTapped="DgStudents_DoubleTapped">
+              <DataGrid.Columns>
+                  <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+                  <DataGridTemplateColumn Header="Фото">
+                      <DataGridTemplateColumn.CellTemplate>
+                          <DataTemplate>
+                              <Image Width="120" Height="120" Stretch="Uniform"
+                                     Source="{Binding Photo, Converter={StaticResource BytesToBitmap}}"/>
+                          </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
+                  <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}"/>
+                  <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>
+                  <DataGridTextColumn Header="Отчество" Binding="{Binding Patronymic}"/>
+                  <DataGridTextColumn Header="Дата рождения" Binding="{Binding Dob}"/>
+                  <DataGridTextColumn Header="Группа" Binding="{Binding Group.Number}"/>
+              </DataGrid.Columns>
+          </DataGrid>
+      </Grid>
   </Grid>
 </UserControl>

@@ -1,5 +1,8 @@
 using System;
+using System.IO;
 using Avalonia.Controls;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform.Storage;
 using kpk_avalonia.Classes;
 using kpk_avalonia.Data;
 using System.Linq;
@@ -46,9 +49,28 @@ public partial class RegPage : Window
         Close();
     }
 
-    private void BtnAddImage_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private async void BtnAddImage_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        
+        var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Выбрать фото",
+            AllowMultiple = false,
+            FileTypeFilter = new[]
+            {
+                new FilePickerFileType("Изображения") { Patterns = new[] { "*.jpg", "*.jpeg", "*.png", "*.gif" } }
+            }
+        });
+
+        if (files.Count == 0) return;
+
+        await using var stream = await files[0].OpenReadAsync();
+        using var memStream = new MemoryStream();
+        await stream.CopyToAsync(memStream);
+
+        user.Photo = memStream.ToArray();
+
+        memStream.Position = 0;
+        IPicture.Source = new Bitmap(memStream);
     }
 
 

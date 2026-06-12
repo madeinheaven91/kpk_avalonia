@@ -36,14 +36,17 @@ public partial class AppDBContext : DbContext
             entity.ToTable("groups");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
             entity.Property(e => e.Number)
-                .HasMaxLength(50)
+                .HasMaxLength(255)
                 .HasColumnName("number");
             entity.Property(e => e.SpecialtyId).HasColumnName("specialty_id");
 
             entity.HasOne(d => d.Specialty).WithMany(p => p.Groups)
                 .HasForeignKey(d => d.SpecialtyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("groups_specialty_id_fkey");
         });
 
@@ -55,10 +58,10 @@ public partial class AppDBContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Login1)
-                .HasMaxLength(50)
+                .HasMaxLength(255)
                 .HasColumnName("login");
             entity.Property(e => e.Password)
-                .HasMaxLength(50)
+                .HasMaxLength(255)
                 .HasColumnName("password");
         });
 
@@ -69,9 +72,11 @@ public partial class AppDBContext : DbContext
             entity.ToTable("specialties");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
             entity.Property(e => e.Name)
-                .HasMaxLength(50)
+                .HasMaxLength(255)
                 .HasColumnName("name");
         });
 
@@ -84,19 +89,21 @@ public partial class AppDBContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Dob).HasColumnName("dob");
             entity.Property(e => e.FirstName)
-                .HasMaxLength(50)
+                .HasMaxLength(255)
                 .HasColumnName("first_name");
             entity.Property(e => e.GroupId).HasColumnName("group_id");
             entity.Property(e => e.LastName)
-                .HasMaxLength(50)
+                .HasMaxLength(255)
                 .HasColumnName("last_name");
             entity.Property(e => e.LoginId).HasColumnName("login_id");
             entity.Property(e => e.Patronymic)
-                .HasMaxLength(50)
+                .HasMaxLength(255)
                 .HasColumnName("patronymic");
+            entity.Property(e => e.Photo).HasColumnName("photo");
 
             entity.HasOne(d => d.Group).WithMany(p => p.Users)
                 .HasForeignKey(d => d.GroupId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("users_group_id_fkey");
 
             entity.HasOne(d => d.Login).WithMany(p => p.Users)
